@@ -15,14 +15,14 @@ function Workspace() {
   const [details, setDetails] = useState({});
   const [code, setCode] = useState("");
   const [processing, setProcessing] = useState(false);
-
+  const [output, setOutput] = useState("");
   const testcases = details.testcases;
 
   useEffect(() => {
     async function fetchDetails() {
       try {
         const response = await axios.get(
-          `http://localhost:6001/${problemId}`
+          `http://localhost:6001/problem/${problemId}`
         );
         setDetails(response.data);
       } catch (error) {
@@ -38,56 +38,67 @@ function Workspace() {
 
   const handleCompile = () => {
     setProcessing(true);
-  
+    
     try {
-      const result = eval(code);  // Evaluating the code directly
-      const input = details?.testcases[0]?.input;
-      console.log("Result:", result);  // Output the result
-  
-      // Optionally, if the code expects input and processes it, you can pass it like this:
-      // const result = eval(`(function() { ${code} })()`);
-      // console.log("Result with input:", result);
+      // Ensure the code being evaluated is a function that can take input and return output
+      
+      const input = [1, 2, 3];  // Assumes input is provided in the format needed
+      const expectedOutput = "0,1";
+
+      // Run the user's function with the input
+   
+
+      const target = 3; 
+
+      function twoSum(nums, target) {
+        const map = new Map();
+        for (let i = 0; i < nums.length; i++) {
+          const complement = target - nums[i];
+          if (map.has(complement)) {
+            return [map.get(complement), i];
+          }
+          map.set(nums[i], i);
+        }
+        return [];
+      }
+           
+      
+      
+      const userFunction = new Function('nums', 'target', `
+        // Add your code here (e.g., the twoSum function body)
+        // const map = new Map();
+        // for (let i = 0; i < nums.length; i++) {
+        //   const complement = target - nums[i];
+        //   if (map.has(complement)) {
+        //     return [map.get(complement), i];
+        //   }
+        //   map.set(nums[i], i);
+        // }
+        // return [];
+        ${code}
+      `);
+      
+      // Define a test case input
+     // This is the target sum
+      const result = userFunction(input,target);
+
+      // Compare result with expected output
+      const resultString = result ? result.join(',') : '';
+      if (JSON.stringify(resultString).trim() === JSON.stringify(expectedOutput).trim()) {
+        toast.success("Congrats! Test Case Passed");
+        setOutput(resultString);
+      } else {
+        toast.error("Oops! Output Didn't Match");
+        console.log(result); setOutput(resultString);
+
+
+      }
+      
     } catch (error) {
       console.error("Error during evaluation:", error);
+      toast.error("Error during evaluation. Check console for details.");
     } finally {
-      setProcessing(false);  // Stop processing after evaluation
-    }
-  };
-
-  const checkStatus = async (token) => {
-    const options = {
-      method: "GET",
-      url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      },
-    };
-
-    try {
-      const response = await axios.request(options);
-      const statusId = await response.data.status_id;
-      if (statusId === 1 || statusId === 2) {
-        setTimeout(() => {
-          checkStatus(token);
-        }, 2000);
-        return;
-      } else {
-        const output = atob(response.data.stdout);
-        const reqOutput = details.testcases[0].output;
-
-        if (output.trim() == reqOutput.trim()) {
-          toast.success("Congrats! TestCase Passesd");
-        } else {
-          toast.error("Oops! Output Didn't Matched");
-        }
-        setProcessing(false);
-        return;
-      }
-    } catch (error) {
-      setProcessing(false);
-      console.log(error);
+      setProcessing(false); // Stop processing after evaluation
     }
   };
 
@@ -101,6 +112,10 @@ function Workspace() {
           testcases={testcases}
           processing={processing}
         />
+        <div className="output-tab">
+          <h3>Output</h3>
+          <pre>{output}</pre>
+        </div>
       </Split>
     </Split>
   );
