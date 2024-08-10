@@ -36,33 +36,21 @@ function Workspace() {
     setCode(data);
   };
 
-  const handleCompile = async () => {
+  const handleCompile = () => {
     setProcessing(true);
-    const formData = {
-      language_id: 63,
-      source_code: btoa(code),
-      stdin: btoa(details?.testcases[0].input),
-    };
-
-    const options = {
-      method: "POST",
-      url: process.env.REACT_APP_RAPID_API_URL,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      },
-      data: formData,
-    };
-
+  
     try {
-      const response = await axios.request(options);
-      const token = response.data.token;
-      checkStatus(token);
+      const result = eval(code);  // Evaluating the code directly
+      const input = details?.testcases[0]?.input;
+      console.log("Result:", result);  // Output the result
+  
+      // Optionally, if the code expects input and processes it, you can pass it like this:
+      // const result = eval(`(function() { ${code} })()`);
+      // console.log("Result with input:", result);
     } catch (error) {
-      console.log(error);
+      console.error("Error during evaluation:", error);
+    } finally {
+      setProcessing(false);  // Stop processing after evaluation
     }
   };
 
