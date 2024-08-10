@@ -17,9 +17,13 @@ function Workspace() {
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
+  const [testResults, setTestResults] = useState([]); // New state for test results
 
-  const testcases = details.testcases;
-
+  const testcases = [
+    { input: "1,2,3", expectedOutput: "0,1" },
+    { input: "4,5,6", expectedOutput: "1,2" },
+    { input: "7,8,9", expectedOutput: "0,2" },
+  ];
   useEffect(() => {
     async function fetchDetails() {
       try {
@@ -37,69 +41,55 @@ function Workspace() {
   const onChange = (data) => {
     setCode(data);
   };
-
-  const handleCompile = () => {
+  const handleCompile = async () => {
     setProcessing(true);
-    
+
     try {
-      // Ensure the code being evaluated is a function that can take input and return output
-      
-      const input = [1, 2, 3];  // Assumes input is provided in the format needed
-      const expectedOutput = "0,1";
+      const allResults = [];
 
-      // Run the user's function with the input
-   
+      for (const testcase of testcases) {
+        const response = await axios.post("http://localhost:6001/get-code", {
+          code,
+        });
 
-      const target = 3; 
+        if (response.status === 200) {
+          const output = response.data.replace("Output: ", "").trim();
 
-      function twoSum(nums, target) {
-        const map = new Map();
-        for (let i = 0; i < nums.length; i++) {
-          const complement = target - nums[i];
-          if (map.has(complement)) {
-            return [map.get(complement), i];
-          }
-          map.set(nums[i], i);
+          const isPassing = output ===  testcase.expectedOutput.trim();
+          allResults.push({
+            input: testcase.input,
+            expected: testcase.expectedOutput,
+            output,
+            isPassing,
+          });
+        } else {
+          allResults.push({
+            input: testcase.input,
+            expected: testcase.expectedOutput,
+            output: "Execution failed",
+            isPassing: false,
+          });
         }
-        return [];
       }
-           
-      
-      
-      const userFunction = new Function('nums', 'target', `
-        // Add your code here (e.g., the twoSum function body)
-        // const map = new Map();
-        // for (let i = 0; i < nums.length; i++) {
-        //   const complement = target - nums[i];
-        //   if (map.has(complement)) {
-        //     return [map.get(complement), i];
-        //   }
-        //   map.set(nums[i], i);
-        // }
-        // return [];
-        ${code}
-      `);
-      
-      // Define a test case input
-     // This is the target sum
-     const result = userFunction(input, target);
-     const resultString = Array.isArray(result) ? result.join(',') : result?.toString() || '';
 
-     if (JSON.stringify(resultString).trim() === JSON.stringify(expectedOutput).trim()) {
-       toast.success("Congrats! Test Case Passed");
-       setOutput(resultString);
-     } else {
-       toast.error("Oops! Output Didn't Match");
-       setOutput(resultString);
-     }
-   } catch (error) {
-     console.error("Error during evaluation:", error);
-     setError(error.message || "An unknown error occurred.");
-     toast.error("Error during evaluation. Check console for details.");
-   } finally {
-     setProcessing(false);
-   }
- };
+      setTestResults(allResults);
+
+      if (allResults.every((result) => result.isPassing)) {
+        toast.success("All test cases passed!");
+        setError("");
+      } else {
+        toast.error("Some test cases failed.");
+        setError("");
+      }
+    } catch (error) {
+      console.error("Error during execution:", error);
+      setError(error.message || "An unknown error occurred.");
+      toast.error("Error during execution. Check console for details.");
+    } finally {
+      setProcessing(false);
+    }
+  };
+
   return (
     <Split className="split" minSize={0}>
       <ProblemDescription details={details} />
@@ -112,8 +102,15 @@ function Workspace() {
         />
         <div className="result-container">
           <div className="output-tab">
-            <h3>Output</h3>
-            <pre>{output}</pre>
+            <h3>Test Results</h3>
+            {testResults.map((result, index) => (
+              <div key={index}>
+                <p>Input: {result.input}</p>
+                <p>Expected Output: {result.expected}</p>
+                <p>Output: {result.output}</p>
+                <p>Status: {result.isPassing ? "Passed" : "Failed"}</p>
+              </div>
+            ))}
           </div>
           <div className="error-tab">
             <h3>Error</h3>
