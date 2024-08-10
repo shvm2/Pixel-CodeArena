@@ -16,6 +16,8 @@ function Workspace() {
   const [code, setCode] = useState("");
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
+
   const testcases = details.testcases;
 
   useEffect(() => {
@@ -80,28 +82,24 @@ function Workspace() {
       
       // Define a test case input
      // This is the target sum
-      const result = userFunction(input,target);
+     const result = userFunction(input, target);
+     const resultString = Array.isArray(result) ? result.join(',') : result?.toString() || '';
 
-      // Compare result with expected output
-      const resultString = result ? result.join(',') : '';
-      if (JSON.stringify(resultString).trim() === JSON.stringify(expectedOutput).trim()) {
-        toast.success("Congrats! Test Case Passed");
-        setOutput(resultString);
-      } else {
-        toast.error("Oops! Output Didn't Match");
-        console.log(result); setOutput(resultString);
-
-
-      }
-      
-    } catch (error) {
-      console.error("Error during evaluation:", error);
-      toast.error("Error during evaluation. Check console for details.");
-    } finally {
-      setProcessing(false); // Stop processing after evaluation
-    }
-  };
-
+     if (JSON.stringify(resultString).trim() === JSON.stringify(expectedOutput).trim()) {
+       toast.success("Congrats! Test Case Passed");
+       setOutput(resultString);
+     } else {
+       toast.error("Oops! Output Didn't Match");
+       setOutput(resultString);
+     }
+   } catch (error) {
+     console.error("Error during evaluation:", error);
+     setError(error.message || "An unknown error occurred.");
+     toast.error("Error during evaluation. Check console for details.");
+   } finally {
+     setProcessing(false);
+   }
+ };
   return (
     <Split className="split" minSize={0}>
       <ProblemDescription details={details} />
@@ -112,9 +110,15 @@ function Workspace() {
           testcases={testcases}
           processing={processing}
         />
-        <div className="output-tab">
-          <h3>Output</h3>
-          <pre>{output}</pre>
+        <div className="result-container">
+          <div className="output-tab">
+            <h3>Output</h3>
+            <pre>{output}</pre>
+          </div>
+          <div className="error-tab">
+            <h3>Error</h3>
+            <pre>{error}</pre>
+          </div>
         </div>
       </Split>
     </Split>
