@@ -1,4 +1,4 @@
-nav {
+/* nav {
   height: 50px;
   display: flex;
   flex-direction: row-reverse;
@@ -16,4 +16,36 @@ nav {
   border-radius: 0.25rem;
   border: 1px solid;
   padding: 0.25rem 0.5rem;
+} */
+
+/* Light Mode Navbar Styles */
+nav {
+  height: 50px;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0px 30px;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+  cursor: pointer;
+  background: #333;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 0.25rem;
+  border: 1px solid #333;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Dark Mode Navbar Styles */
+body.dark-mode nav {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .logout-btn {
+  background: #e0e0e0;
+  color: #333;
+  border: 1px solid #e0e0e0;
 }

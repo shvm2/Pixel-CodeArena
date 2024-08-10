@@ -1,4 +1,4 @@
-.main-container {
+/* .main-container {
   position: relative;
   margin: 25px auto;
   padding: 0 1.5rem;
@@ -45,4 +45,108 @@ td a {
 
 td a:hover {
   color: blue;
+} */
+
+/* Dark Mode Default Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.main-container {
+  position: relative;
+  margin: 25px auto;
+  padding: 0 1.5rem;
+}
+
+.problem-table {
+  margin: 0 auto;
+  font-size: 1rem;
+  color: #e0e0e0;
+  width: 75%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+body.light-mode .problem-table {
+  color: #000000;
+}
+
+body.light-mode .problem-table thead {
+  color: #000000;
+}
+
+.problem-table thead {
+  font-size: 1rem;
+  color: #a0a0a0;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333333;
+}
+
+.table-heading {
+  padding: 0.75rem 0.25rem;
+  font-weight: 500;
+}
+
+tbody {
+  color: #e0e0e0;
+}
+
+body.light-mode tbody {
+  color: #000000;
+}
+
+.row-odd {
+  background-color: #1e1e1e;
+}
+
+body.light-mode .row-odd {
+  background-color: #f7f8fa;
+}
+
+td a {
+  text-decoration: none;
+  color: #a0a0a0;
+  cursor: pointer;
+}
+
+body.light-mode td a {
+  color: #000000;
+}
+
+td a:hover {
+  color: lightblue;
+}
+
+/* Toggle Button Styles */
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 8px 16px;
+  background: linear-gradient(158deg, #546e7a, #37474f);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.18s ease-in-out;
+}
+
+.toggle-btn:hover {
+  opacity: 0.8;
+}
+
+.toggle-btn.light-mode {
+  background: linear-gradient(158deg, #eeeeee, #cccccc);
+}
+
+/* Toast Notification Colors */
+.Toastify__toast--success {
+  background: blue;
+  color: white;
 }

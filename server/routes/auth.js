@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
     });
 
     const savedUser = await newUser.save();
-    res.status(201).json({ message: "User created successfully", user: savedUser });
+    res.status(201).json({ message: "User created successfully!", user: savedUser });
   } catch (error) {
     console.error("Signup Error:", error);  // Log the error for debugging
     res.status(500).json({ message: "An error occurred", error: error.message });
@@ -53,7 +53,7 @@ export const login = async (req, res) => {
     // Generate a JWT token
     const secretKey = crypto.randomBytes(64).toString('hex');
     const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: '1h' });
-    res.status(200).json({ token, message: "Logged in successfully" });
+    res.status(200).json({ token, message: "Logged in successfully!" });
   } catch (error) {
     console.error("Login Error:", error);  // Log the error for debugging
     res.status(500).json({ message: "An error occurred", error: error.message });
