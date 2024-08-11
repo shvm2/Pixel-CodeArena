@@ -2,9 +2,7 @@ import mongoose from "mongoose";
 
 const problemDetailsSchema = new mongoose.Schema({
   id: {
-    type: Number,
-    unique: true, // Ensure IDs are unique
-    required: true
+    type: String
   },
   title: {
     type: String,

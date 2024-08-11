@@ -10,7 +10,17 @@ nav {
 
 .logout-btn {
   cursor: pointer;
-  background: #333;
+  background: #c23838;
+  color: white;
+  font-size: 0.9rem;
+  border-radius: 0.25rem;
+  border: 1px solid;
+  padding: 0.25rem 0.5rem;
+}
+
+.add-problem-btn{
+  cursor: pointer;
+  background: #2441d2;
   color: white;
   font-size: 0.9rem;
   border-radius: 0.25rem;

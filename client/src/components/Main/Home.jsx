@@ -28,7 +28,6 @@ function Home() {
 
   return (
     <>
-      <Navbar />
       <TableData problems={problems} />
       <ToastContainer
         position="top-right"

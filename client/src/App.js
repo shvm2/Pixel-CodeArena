@@ -1,21 +1,30 @@
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate,useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
 import Home from "./components/Main/Home";
 import Problem from "./components/Problem/Problem";
+import AddProblemPage from "./components/Add-Problem/AddProblemPage";
+import Playground from "./components/Playground/Playground"
+import Navbar from "./components/Topbar/Navbar";
 
 function App() {
   const user = localStorage.getItem("token");
+  const location = useLocation();
+
+  const showNavbar = location.pathname !== "/login" && location.pathname !== "/signup";
   return (
     <div className="App">
       <ToastContainer />
+      {showNavbar && <Navbar />} {/* Conditionally render Navbar */}
       <div className="main">
         <Routes>
           {user && <Route exact path="/home" element={<Home />} />}
           {user && <Route exact path="/problem/:id" element={<Problem />} />}
+          {user && <Route exact path="/add-problem" element={<AddProblemPage />} />}
+          {user && <Route exact path="/playground" element={<Playground />} />}
           <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/" element={<Navigate replace to="/login" />} />

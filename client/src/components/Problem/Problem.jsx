@@ -4,7 +4,6 @@ import Workspace from "../Workspace/Workspace";
 const Problem = () => {
   return (
     <div>
-      <Navbar />
       <Workspace />
     </div>
   );

@@ -12,10 +12,10 @@ const CodeEditor = ({ onChange }) => {
 
   return (
     <div className="editor-container">
-      <div className="code-editor-heading">JavaScript</div>
+      <div className="code-editor-heading">C++</div>
       <Editor
         width={`100%`}
-        language={"javascript"}
+        language={"cpp"}
         value={value}
         defaultValue="// Write Your Code Here...
         // You have to write a code with function and calling it with required parameters...

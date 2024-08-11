@@ -1,0 +1,59 @@
+.workspace-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 16px;
+  }
+  
+  .CodeEditor {
+    flex: 1;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .output-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: 4px;
+  }
+  
+  .compile-btn {
+    align-self: flex-start;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .compile-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .output-tab, .error-tab {
+    flex: 1;
+    margin-bottom: 16px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+  }
+  
+  h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
