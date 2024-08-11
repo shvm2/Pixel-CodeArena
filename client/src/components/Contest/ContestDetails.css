@@ -1,0 +1,42 @@
+/* ContestDetails.css */
+
+.contest-details-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.contest-details-container {
+  width: 100%;
+  max-width: 900px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.contest-title {
+  font-size: 24px;
+  color: #007bff;
+  margin-bottom: 15px;
+}
+
+.questions-list, .leaderboard {
+  list-style-type: none;
+  padding: 0;
+}
+
+.questions-list li, .leaderboard-entry {
+  background-color: #e9f5ff;
+  border: 1px solid #d0e3ff;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.leaderboard-entry {
+  display: flex;
+  justify-content: space-between;
+}

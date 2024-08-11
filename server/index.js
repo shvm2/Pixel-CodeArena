@@ -13,7 +13,7 @@ import { exec } from 'child_process';
 import Problems from "./models/ProblemsTable.js";
 import ProblemDetails from "./models/ProblemDetails.js";
 import { v4 as uuidv4 } from 'uuid';
-
+import contestRoutes from "./routes/contest.js";
 
 dotenv.config();
 const app = express();
@@ -43,6 +43,7 @@ app.use("/auth/signup", signup);
 app.use("/auth/login", login);
 app.use("/problemsTable", problemsTable);
 app.use("/problem/:id", problemDetails);
+app.use("/contest", contestRoutes);
 app.post('/get-code', (req, res) => {
   const { code } = req.body;
 

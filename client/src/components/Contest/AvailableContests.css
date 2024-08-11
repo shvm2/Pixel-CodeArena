@@ -1,0 +1,82 @@
+/* AvailableContests.css */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.contests-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f2f5; /* Light background for the whole page */
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 900px;
+  background-color: #ffffff; /* White background for the content */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.heading {
+  text-align: center;
+  color: #007bff; /* Primary color for the heading */
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.no-contests {
+  text-align: center;
+  color: #888;
+  font-size: 18px;
+}
+
+.no-contests h3 {
+  font-size: 24px;
+  color: #ff5722; /* Playful orange color */
+}
+
+.no-contests p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #666;
+}
+
+.contests-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contest-item {
+  background-color: #ffffff; /* White background for each contest */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contest-title {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.questions-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.question-item {
+  background-color: #e9f5ff; /* Light blue background for questions */
+  border: 1px solid #d0e3ff;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 5px 0;
+}

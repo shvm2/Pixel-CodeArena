@@ -1,0 +1,19 @@
+.contest-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.contest-details h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.question-container {
+  margin: 20px 0;
+}
+
+.question-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}

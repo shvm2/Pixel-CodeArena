@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -49,6 +49,8 @@ const Navbar = () => {
       >
         {darkMode ? "Light Mode" : "Dark Mode"}
       </button>
+      <Link to="/contest/create">Create Contest</Link>
+      <Link to="/contest/available">Available Contests</Link>
       <button className="add-problem-btn" onClick={handleHome}>
           HOME
         </button>
