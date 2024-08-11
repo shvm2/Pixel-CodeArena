@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./AvailableContests.css";
 import Navbar from "../Topbar/Navbar";
 
 const AvailableContests = () => {
   const [contests, setContests] = useState([]);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchContests = async () => {
@@ -17,7 +19,23 @@ const AvailableContests = () => {
       }
     };
     fetchContests();
+
+    const interval = setInterval(() => setCurrentTime(new Date()), 1000);
+    return () => clearInterval(interval);
   }, []);
+
+  const isContestActive = (startTime, endTime) => {
+    const now = new Date();
+    return now >= new Date(startTime) && now <= new Date(endTime);
+  };
+
+  const handleStartClick = (contestId) => {
+    navigate(`/contest/${contestId}/instructions`);
+  };
+
+  const hasUserSubmitted = (contestId) => {
+    return localStorage.getItem(`submitted_${contestId}`) === 'true';
+  };
 
   return (
     <div>
@@ -39,8 +57,14 @@ const AvailableContests = () => {
                     <p><strong>Time Limit:</strong> {contest.timeLimit} minutes</p>
                     <p><strong>Start Time:</strong> {new Date(contest.startTime).toLocaleString()}</p>
                     <p><strong>End Time:</strong> {new Date(contest.endTime).toLocaleString()}</p>
-                    <p><strong>Question:</strong> {contest.questionTitle}</p> {/* Display the problem title */}
                   </Link>
+                  <button
+                    className={`start-button ${isContestActive(contest.startTime, contest.endTime) && !hasUserSubmitted(contest._id) ? 'active' : 'inactive'}`}
+                    disabled={!isContestActive(contest.startTime, contest.endTime) || hasUserSubmitted(contest._id)}
+                    onClick={() => handleStartClick(contest._id)}
+                  >
+                    {hasUserSubmitted(contest._id) ? 'Already Given' : isContestActive(contest.startTime, contest.endTime) ? 'Start' : 'Not Started Yet'}
+                  </button>
                 </li>
               ))}
             </ul>

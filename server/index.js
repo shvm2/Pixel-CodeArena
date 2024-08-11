@@ -6,6 +6,7 @@ import { signup, login } from "./routes/auth.js";
 import { problemsTable } from "./routes/problemsTable.js";
 import { problemDetails } from "./routes/problemDetails.js";
 import contestRoutes from "./routes/contest.js";
+import problemRoutes from "./routes/problems.js";
 
 dotenv.config();
 const app = express();
@@ -37,3 +38,4 @@ app.use("/auth/login", login);
 app.use("/problemsTable", problemsTable);
 app.use("/problem/:id", problemDetails);
 app.use("/contest", contestRoutes);
+app.use("/problems", problemRoutes);

@@ -1,82 +1,97 @@
-/* AvailableContests.css */
-
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
+/* Overall page styling */
 .contests-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
-  background-color: #f0f2f5; /* Light background for the whole page */
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
 }
 
+/* Content wrapper */
 .content-wrapper {
-  width: 100%;
   max-width: 900px;
-  background-color: #ffffff; /* White background for the content */
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
   padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Page heading */
 .heading {
-  text-align: center;
-  color: #007bff; /* Primary color for the heading */
+  font-size: 2rem;
   margin-bottom: 20px;
-  font-size: 26px;
-  font-weight: 700;
+  color: #333;
+  text-align: center;
 }
 
+/* No contests message */
 .no-contests {
   text-align: center;
-  color: #888;
-  font-size: 18px;
-}
-
-.no-contests h3 {
-  font-size: 24px;
-  color: #ff5722; /* Playful orange color */
-}
-
-.no-contests p {
-  margin-top: 10px;
-  font-size: 16px;
+  padding: 20px;
   color: #666;
 }
 
+/* Contests list */
 .contests-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 .contest-item {
-  background-color: #ffffff; /* White background for each contest */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.contest-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.contest-link {
+  text-decoration: none;
+  color: #333;
 }
 
 .contest-title {
-  font-size: 22px;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  margin: 0;
 }
 
-.questions-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.question-item {
-  background-color: #e9f5ff; /* Light blue background for questions */
-  border: 1px solid #d0e3ff;
-  border-radius: 4px;
+.start-button {
+  display: block;
+  width: 100%;
   padding: 10px;
-  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.start-button.active {
+  background-color: #28a745;
+}
+
+.start-button.inactive {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.participated-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #ffc107;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
 }

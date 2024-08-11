@@ -11,7 +11,7 @@ function Workspace({ problemId: propProblemId }) {
   const [code, setCode] = useState("");
   const [processing, setProcessing] = useState(false);
 
-  const testcases = details.testcases;
+  const testCases = details.testCases || [];
 
   useEffect(() => {
     const problemId = propProblemId || window.location.pathname.split("/").pop();
@@ -23,7 +23,7 @@ function Workspace({ problemId: propProblemId }) {
         );
         setDetails(response.data);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching problem details:", error);
       }
     }
     fetchDetails();
@@ -35,35 +35,41 @@ function Workspace({ problemId: propProblemId }) {
 
   const handleCompile = async () => {
     setProcessing(true);
-    const formData = {
-      language_id: 63,
-      source_code: btoa(code),
-      stdin: btoa(details?.testcases[0].input),
-    };
 
-    const options = {
-      method: "POST",
-      url: process.env.REACT_APP_RAPID_API_URL,
-      params: { base64_encoded: "true", fields: "*" },
-      headers: {
-        "content-type": "application/json",
-        "Content-Type": "application/json",
-        "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
-        "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
-      },
-      data: formData,
-    };
+    // Compile and run the code against all test cases
+    for (let i = 0; i < testCases.length; i++) {
+      const formData = {
+        language_id: 63,
+        source_code: btoa(code),
+        stdin: btoa(testCases[i].input),
+      };
 
-    try {
-      const response = await axios.request(options);
-      const token = response.data.token;
-      checkStatus(token);
-    } catch (error) {
-      console.log(error);
+      const options = {
+        method: "POST",
+        url: process.env.REACT_APP_RAPID_API_URL,
+        params: { base64_encoded: "true", fields: "*" },
+        headers: {
+          "content-type": "application/json",
+          "Content-Type": "application/json",
+          "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+          "X-RapidAPI-Key": process.env.REACT_APP_RAPID_API_KEY,
+        },
+        data: formData,
+      };
+
+      try {
+        const response = await axios.request(options);
+        const token = response.data.token;
+        await checkStatus(token, testCases[i].output);
+      } catch (error) {
+        console.log("Error during compilation:", error);
+      }
     }
+
+    setProcessing(false);
   };
 
-  const checkStatus = async (token) => {
+  const checkStatus = async (token, expectedOutput) => {
     const options = {
       method: "GET",
       url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
@@ -76,27 +82,23 @@ function Workspace({ problemId: propProblemId }) {
 
     try {
       const response = await axios.request(options);
-      const statusId = await response.data.status_id;
+      const statusId = response.data.status_id;
       if (statusId === 1 || statusId === 2) {
         setTimeout(() => {
-          checkStatus(token);
+          checkStatus(token, expectedOutput);
         }, 2000);
         return;
       } else {
         const output = atob(response.data.stdout);
-        const reqOutput = details.testcases[0].output;
 
-        if (output.trim() === reqOutput.trim()) {
+        if (output.trim() === expectedOutput.trim()) {
           toast.success("Congrats! TestCase Passed");
         } else {
           toast.error("Oops! Output Didn't Match");
         }
-        setProcessing(false);
-        return;
       }
     } catch (error) {
-      setProcessing(false);
-      console.log(error);
+      console.log("Error checking status:", error);
     }
   };
 
@@ -107,7 +109,7 @@ function Workspace({ problemId: propProblemId }) {
         <CodeEditor onChange={onChange} />
         <TestCases
           handleCompile={handleCompile}
-          testcases={testcases}
+          testCases={testCases}
           processing={processing}
         />
       </Split>

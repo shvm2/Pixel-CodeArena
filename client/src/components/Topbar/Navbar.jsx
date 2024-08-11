@@ -15,6 +15,7 @@ const Navbar = () => {
         <Link to="/home">Home</Link>
         <Link to="/contest/create">Create Contest</Link>
         <Link to="/contest/available">Available Contests</Link>
+        <Link to="/problems/add-problem">Add Problem</Link>
         <button className="logout-btn" onClick={handleLogout}>
           LOGOUT
         </button>

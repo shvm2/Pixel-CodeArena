@@ -5,12 +5,17 @@ import "./CodingNavbar.css";
 const CodingNavbar = ({ contestTitle, timeLimit }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [timeLeft, setTimeLeft] = useState(timeLimit * 60); // Initialize timeLeft in seconds
+  const [timeLeft, setTimeLeft] = useState(0); // Initialize timeLeft in seconds
 
   useEffect(() => {
-    // Convert timeLimit to seconds when the component mounts or timeLimit changes
-    setTimeLeft(timeLimit * 60);
-  }, [timeLimit]);
+    // Load the remaining time from localStorage or set it to the initial time
+    const storedTimeLeft = localStorage.getItem(`contest-${id}-time-left`);
+    if (storedTimeLeft) {
+      setTimeLeft(parseInt(storedTimeLeft, 10));
+    } else {
+      setTimeLeft(timeLimit * 60); // Initialize timeLeft in seconds
+    }
+  }, [id, timeLimit]);
 
   useEffect(() => {
     // Update the timer every second
@@ -21,16 +26,19 @@ const CodingNavbar = ({ contestTitle, timeLimit }) => {
           handleSubmit(); // Submit when time is up
           return 0;
         }
-        return prevTimeLeft - 1;
+        const newTimeLeft = prevTimeLeft - 1;
+        localStorage.setItem(`contest-${id}-time-left`, newTimeLeft);
+        return newTimeLeft;
       });
     }, 1000);
 
     return () => clearInterval(timer); // Cleanup timer on component unmount
-  }, []);
+  }, [id]);
 
   const handleSubmit = () => {
     // Implement your submission logic here
     console.log("Submitting code...");
+    localStorage.removeItem(`contest-${id}-time-left`); // Clear stored time on submission
     navigate(`/contest/${id}/submit`); // Redirect to submit page (you can modify this as needed)
   };
 
@@ -44,7 +52,7 @@ const CodingNavbar = ({ contestTitle, timeLimit }) => {
     <nav className="coding-navbar">
       <div className="contest-title">{contestTitle}</div>
       <div className="time-left">Time Left: {formatTime(timeLeft)}</div>
-      <button onClick={handleSubmit} className="submit-button">
+      <button onClick={handleSubmit} className="submit-button1">
         Submit
       </button>
     </nav>

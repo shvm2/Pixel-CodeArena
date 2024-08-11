@@ -16,21 +16,6 @@ function ProblemDescription({ details }) {
         <div className="problem-companies">Companies</div>
       </div>
       <div className="problem-description">{details.description}</div>
-      <div className="problem-examples">
-        {details.examples?.map((example, index) => {
-          return (
-            <div className="example-container" key={index}>
-              <div className="example-no">Example {index + 1}:</div>
-              <div className="example-desc">
-                <strong>Input:</strong> {example.input} <br />
-                <strong>Output:</strong> {example.output}
-                <br />
-                <strong>Explanation:</strong> {example.explanation}
-              </div>
-            </div>
-          );
-        })}
-      </div>
       <div className="constraints-container">
         <div className="constraints">Constraints:</div>
         {details.constraints?.map((constraint, index) => {

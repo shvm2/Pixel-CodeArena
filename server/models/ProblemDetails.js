@@ -1,3 +1,4 @@
+// ProblemDetails.js
 import mongoose from "mongoose";
 
 const problemDetailsSchema = new mongoose.Schema({
@@ -25,6 +26,12 @@ const problemDetailsSchema = new mongoose.Schema({
   constraints: {
     type: Array,
   },
+  testCases: [
+    {
+      input: String,
+      output: String,
+    },
+  ],
 });
 
 const ProblemDetails = mongoose.model("ProblemDetails", problemDetailsSchema);

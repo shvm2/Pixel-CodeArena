@@ -1,0 +1,108 @@
+/* Container for the entire test case section */
+.testcase-container {
+  padding: 20px;
+  background-color: #f4f4f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header for the test cases section */
+.test-cases-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+/* Individual test case container */
+.test-case {
+  background-color: #ffffff;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.test-case:hover {
+  transform: translateY(-4px);
+}
+
+/* Header for each test case */
+.test-case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.test-case-number {
+  font-weight: 500;
+  color: #4a4a4a;
+  font-size: 1.2rem;
+}
+
+/* Content of the test case */
+.test-case-content {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #777;
+}
+
+/* Input and output styling */
+.testcase-input, 
+.testcase-output {
+  background-color: #f8f8fb;
+  padding: 10px;
+  border-radius: 4px;
+  color: #333;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Styling for the button container */
+.compile-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Button styling */
+.compile-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.compile-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.compile-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* No test cases message */
+.no-test-cases {
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+}
