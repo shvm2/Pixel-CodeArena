@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Split from "react-split";
 import { toast } from "react-toastify";
@@ -7,11 +6,7 @@ import ProblemDescription from "./ProblemDescription";
 import CodeEditor from "./CodeEditor";
 import TestCases from "./TestCases";
 
-function Workspace() {
-  const urlPathname = window.location.pathname;
-  const segments = urlPathname.split("/");
-  const problemId = segments[segments.length - 1];
-
+function Workspace({ problemId: propProblemId }) {
   const [details, setDetails] = useState({});
   const [code, setCode] = useState("");
   const [processing, setProcessing] = useState(false);
@@ -19,10 +14,12 @@ function Workspace() {
   const testcases = details.testcases;
 
   useEffect(() => {
+    const problemId = propProblemId || window.location.pathname.split("/").pop();
+
     async function fetchDetails() {
       try {
         const response = await axios.get(
-          `http://localhost:6001/${problemId}`
+          `http://localhost:6001/problem/${problemId}`
         );
         setDetails(response.data);
       } catch (error) {
@@ -30,7 +27,7 @@ function Workspace() {
       }
     }
     fetchDetails();
-  }, [problemId]);
+  }, [propProblemId]);
 
   const onChange = (data) => {
     setCode(data);
@@ -89,10 +86,10 @@ function Workspace() {
         const output = atob(response.data.stdout);
         const reqOutput = details.testcases[0].output;
 
-        if (output.trim() == reqOutput.trim()) {
-          toast.success("Congrats! TestCase Passesd");
+        if (output.trim() === reqOutput.trim()) {
+          toast.success("Congrats! TestCase Passed");
         } else {
-          toast.error("Oops! Output Didn't Matched");
+          toast.error("Oops! Output Didn't Match");
         }
         setProcessing(false);
         return;

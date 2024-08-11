@@ -5,10 +5,12 @@ import cors from "cors";
 import { signup, login } from "./routes/auth.js";
 import { problemsTable } from "./routes/problemsTable.js";
 import { problemDetails } from "./routes/problemDetails.js";
+import contestRoutes from "./routes/contest.js";
 
 dotenv.config();
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); // Adjust as needed
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 const PORT = process.env.PORT || 6001;
 
@@ -34,3 +36,4 @@ app.use("/auth/signup", signup);
 app.use("/auth/login", login);
 app.use("/problemsTable", problemsTable);
 app.use("/problem/:id", problemDetails);
+app.use("/contest", contestRoutes);

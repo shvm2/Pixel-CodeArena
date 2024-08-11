@@ -28,7 +28,11 @@ const Signup = () => {
         "http://localhost:6001/auth/signup",
         data
       );
-      console.log(response);
+      
+      // Save the userId in localStorage
+      localStorage.setItem('userId', response.data.userId);
+
+      // Navigate to login page
       navigate("/login");
     } catch (error) {
       console.log(error);

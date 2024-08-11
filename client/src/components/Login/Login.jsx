@@ -28,7 +28,11 @@ const Login = () => {
         data
       );
 
-      localStorage.setItem("token", response.data.data);
+      // Save the token and userId in localStorage
+      localStorage.setItem("token", response.data.token); // Assuming response.data contains the token
+      localStorage.setItem("userId", response.data.userId); // Assuming response.data contains the userId
+
+      // Redirect to home page
       window.location = "/home";
     } catch (error) {
       notify();
@@ -39,6 +43,7 @@ const Login = () => {
   const notify = () => {
     toast.error("Invalid Email or Password");
   };
+
 
   return (
     <div className="login-container">

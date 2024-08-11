@@ -1,5 +1,6 @@
 import ProblemDetails from "../models/ProblemDetails.js";
 
+
 export const problemDetails = async (req, res) => {
   try {
     const problemId = req.params.id;
