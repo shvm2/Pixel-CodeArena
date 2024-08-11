@@ -102,55 +102,27 @@ router.get("/problem/:contestId", async (req, res) => {
   }
 });
 
-// Store the result of a contest
-router.post("/:id/submit", async (req, res) => {
-  const { userId, testCasesPassed, totalTestCases } = req.body;
-  const { id } = req.params;
+// Endpoint for contest submission
+router.post('/:id/submit', async (req, res) => {
+  const contestId = req.params.id;
 
   try {
-    const contest = await Contest.findById(id);
+    // You can add logic here to handle the submission
+    // e.g., save the submission, mark the contest as complete, etc.
+    const contest = await Contest.findById(contestId);
+    if (!contest) {
+      return res.status(404).json({ message: 'Contest not found' });
+    }
 
-    // Calculate the score based on passed test cases
-    const score = (testCasesPassed / totalTestCases) * 100;
+    // Simulate saving submission details (if needed)
+    // contest.submissions.push(req.body);
+    // await contest.save();
 
-    // Save or update the user's result
-    const result = {
-      userId,
-      testCasesPassed,
-      totalTestCases,
-      score,
-      date: new Date(),
-    };
-
-    contest.results.push(result);
-    await contest.save();
-
-    res.status(200).json({ message: "Result submitted successfully", result });
+    // Respond with a success message
+    res.status(200).json({ message: 'Submission received successfully!' });
   } catch (error) {
-    res.status(500).json({ message: "Error submitting result", error });
-  }
-});
-
-// Fetch the leaderboard for a contest
-router.get("/:id/leaderboard", async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const contest = await Contest.findById(id).populate("results.userId", "username");
-
-    const leaderboard = contest.results
-      .sort((a, b) => b.score - a.score)
-      .map((result, index) => ({
-        rank: index + 1,
-        username: result.userId.username,
-        testCasesPassed: result.testCasesPassed,
-        totalTestCases: result.totalTestCases,
-        score: result.score,
-      }));
-
-    res.status(200).json({ leaderboard });
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching leaderboard", error });
+    console.error('Error submitting contest:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 

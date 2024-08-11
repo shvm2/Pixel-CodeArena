@@ -13,7 +13,7 @@ import ContestPage from "./components/Contest/ContestPage"; // Import the new co
 import ParentComponent from "./ParentComponent"; // Import the new component
 import CodingPage from "./components/CodingPage/CodingPage";
 import SubmitPage from './components/SubmitPage/SubmitPage';
-import ResultPage from "./components/ResultPage/ResultPage";
+
 
 function App() {
   const user = localStorage.getItem("token");
@@ -34,7 +34,6 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route path="/contest/:id/submit" element={<SubmitPage />} />
         <Route exact path="/" element={<Navigate replace to="/login" />} />
-        <Route path="/contest/:id/results" element={<ResultPage />} />
       </Routes>
     </div>
   );
