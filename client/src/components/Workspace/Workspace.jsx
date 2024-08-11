@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Split from "react-split";
 import { toast } from "react-toastify";
@@ -17,20 +16,15 @@ function Workspace() {
   const [processing, setProcessing] = useState(false);
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
-  const [testResults, setTestResults] = useState([]); // New state for test results
+  const [testResults, setTestResults] = useState([]);
+  const [testcases, setTestcases] = useState([]); // Fetch test cases dynamically
 
-  const testcases = [
-    { input: "1,2,3", expectedOutput: "0,1" },
-    { input: "4,5,6", expectedOutput: "1,2" },
-    { input: "7,8,9", expectedOutput: "0,2" },
-  ];
   useEffect(() => {
     async function fetchDetails() {
       try {
-        const response = await axios.get(
-          `http://localhost:6001/problem/${problemId}`
-        );
+        const response = await axios.get(`http://localhost:6001/problem/${problemId}`);
         setDetails(response.data);
+        setTestcases(response.data.testcases); // Set test cases from response
       } catch (error) {
         console.log(error);
       }
@@ -41,6 +35,7 @@ function Workspace() {
   const onChange = (data) => {
     setCode(data);
   };
+
   const handleCompile = async () => {
     setProcessing(true);
 
@@ -55,17 +50,17 @@ function Workspace() {
         if (response.status === 200) {
           const output = response.data.replace("Output: ", "").trim();
 
-          const isPassing = output ===  testcase.expectedOutput.trim();
+          const isPassing = output === testcase.output.trim();
           allResults.push({
             input: testcase.input,
-            expected: testcase.expectedOutput,
+            expected: testcase.output,
             output,
             isPassing,
           });
         } else {
           allResults.push({
             input: testcase.input,
-            expected: testcase.expectedOutput,
+            expected: testcase.output,
             output: "Execution failed",
             isPassing: false,
           });

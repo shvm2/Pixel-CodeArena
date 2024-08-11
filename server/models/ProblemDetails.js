@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import TestCase from "./TestCases.js";
 
 const problemDetailsSchema = new mongoose.Schema({
   id: {
-    type: String
+    type: String,
   },
   title: {
     type: String,
@@ -26,13 +27,8 @@ const problemDetailsSchema = new mongoose.Schema({
     type: Array,
   },
   testcases: {
-    type: [
-      {
-        input: String,
-        output: String,
-      },
-    ],
-    default: [],
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "TestCase",  // Reference to the TestCase model
   },
 });
 

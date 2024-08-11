@@ -13,7 +13,7 @@ import { exec } from 'child_process';
 import Problems from "./models/ProblemsTable.js";
 import ProblemDetails from "./models/ProblemDetails.js";
 import { v4 as uuidv4 } from 'uuid';
-
+import Testcase from "./models/TestCases.js";
 
 dotenv.config();
 const app = express();
@@ -89,11 +89,28 @@ app.post("/addproblem", async (req, res) => {
     const { title, description, testCases, difficult, category } = req.body;
     const unq = uuidv4();
 
+
+    const sharedTestCaseId = new mongoose.Types.ObjectId();
+
+    // Create and save each test case with the same ID
+    const testCaseIds = await Promise.all(
+      testCases.map(async (testCase) => {
+        const newTestCase = new Testcase({
+          _id:uuidv4(),
+          input: testCase.input,
+          output: testCase.output,
+          problemId: unq, // Set problemId in each test case
+        });
+        const savedTestCase = await newTestCase.save();
+        return savedTestCase._id; // Collect the IDs of the saved test cases
+      })
+    );
+
+
     const newProblem = new ProblemDetails({
       id: unq, 
       title,
       description,
-      testCases,
     });
 
 
